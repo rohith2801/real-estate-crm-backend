@@ -70,7 +70,7 @@ public class PropertyRequest implements Serializable {
     private LocalDate soldDate;
 
     /**
-     * The Lending partner requests.
+     * The Lending partners.
      */
     private List<PropertyLendingPartnerRequest> lendingPartners;
 }
