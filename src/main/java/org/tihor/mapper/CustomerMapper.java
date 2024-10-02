@@ -1,14 +1,22 @@
 package org.tihor.mapper;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.tihor.entity.CustomerEntity;
 import org.tihor.model.request.CustomerRequest;
+import org.tihor.model.response.CustomerResponse;
 
 /**
  * The type Customer mapper.
  */
 @Component
+@RequiredArgsConstructor
 public class CustomerMapper {
+    /**
+     * The Property mapper.
+     */
+    private final PropertyMapper propertyMapper;
+
     /**
      * Map request to entity customer entity.
      *
@@ -25,5 +33,41 @@ public class CustomerMapper {
                 .cellPhone(request.getCellPhone())
                 .emailId(request.getEmailId())
                 .build();
+    }
+
+    /**
+     * Map entity to response customer response.
+     *
+     * @param entity the entity
+     * @return the customer response
+     */
+    public CustomerResponse mapEntityToResponse(final CustomerEntity entity) {
+        return mapEntityToResponse(entity, false);
+    }
+
+    /**
+     * Map entity to response customer response.
+     *
+     * @param entity              the entity
+     * @param withPropertyDetails the with property details
+     * @return the customer response
+     */
+    public CustomerResponse mapEntityToResponse(final CustomerEntity entity, final Boolean withPropertyDetails) {
+        var builder = CustomerResponse.builder()
+                .id(entity.getId())
+                .firstName(entity.getFirstName())
+                .lastName(entity.getLastName())
+                .street(entity.getStreet())
+                .pinCode(entity.getPinCode())
+                .location(entity.getLocation())
+                .cellPhone(entity.getCellPhone())
+                .emailId(entity.getEmailId());
+
+        if (withPropertyDetails) {
+            var properties = propertyMapper.mapEntitiesToResponses(entity.getPropertyEntities());
+            builder.propertyResponses(properties);
+        }
+
+        return builder.build();
     }
 }

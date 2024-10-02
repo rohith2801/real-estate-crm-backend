@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.tihor.model.Response;
-import org.tihor.model.request.CustomerRequest;
 import org.tihor.model.request.GenericRequest;
 import org.tihor.service.GenericService;
 

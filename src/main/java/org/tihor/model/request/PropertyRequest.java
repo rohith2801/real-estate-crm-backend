@@ -47,7 +47,7 @@ public class PropertyRequest implements Serializable {
     /**
      * The Is ready to sell.
      */
-    private Boolean isReadyToSell;
+    private Boolean isReadyToSell = false;
 
     /**
      * The Quoted price.
