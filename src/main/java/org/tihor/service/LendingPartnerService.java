@@ -3,6 +3,7 @@ package org.tihor.service;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.tihor.entity.LendingPartnerEntity;
 import org.tihor.mapper.LendingPartnerMapper;
@@ -29,6 +30,9 @@ public class LendingPartnerService {
      */
     @Autowired
     private LendingPartnerMapper lendingPartnerMapper;
+
+    @Value("${cache.lending-partner.enabled:false}")
+    private boolean isCacheEnabled;
 
     /**
      * The Lending partner entity map.
@@ -63,6 +67,10 @@ public class LendingPartnerService {
      * @return the entity
      */
     public LendingPartnerEntity getEntity(final Long id) {
-        return lendingPartnerEntityMap.get(id);
+        if (isCacheEnabled) {
+            return lendingPartnerEntityMap.get(id);
+        }
+
+        return lendingPartnerRepository.findById(id).orElseThrow();
     }
 }
