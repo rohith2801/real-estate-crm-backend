@@ -3,6 +3,7 @@ package org.tihor.runner;
 import jakarta.annotation.Resource;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.tihor.entity.LendingPartnerEntity;
 import org.tihor.enums.LendingPartnerType;

@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import org.tihor.entity.LendingPartnerEntity;
 import org.tihor.mapper.LendingPartnerMapper;
@@ -13,11 +14,13 @@ import org.tihor.repository.LendingPartnerRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.StreamSupport;
 
 /**
  * The type Lending partner service.
  */
 @Service
+@DependsOn("lendingPartnerRunner")
 public class LendingPartnerService {
     /**
      * The Lending partner repository.
@@ -54,9 +57,15 @@ public class LendingPartnerService {
      * @return the lending partners
      */
     public List<LendingPartnerResponse> getLendingPartners() {
-        return lendingPartnerEntityMap.values()
-                .stream()
-                .map(entity -> lendingPartnerMapper.mapEntityToResponse(entity))
+        if (isCacheEnabled) {
+            return lendingPartnerEntityMap.values()
+                    .stream()
+                    .map(lendingPartnerMapper::mapEntityToResponse)
+                    .toList();
+        }
+
+        return StreamSupport.stream(lendingPartnerRepository.findAll().spliterator(), false)
+                .map(lendingPartnerMapper::mapEntityToResponse)
                 .toList();
     }
 
