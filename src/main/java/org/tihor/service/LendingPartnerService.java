@@ -34,6 +34,9 @@ public class LendingPartnerService {
     @Autowired
     private LendingPartnerMapper lendingPartnerMapper;
 
+    /**
+     * The Is cache enabled.
+     */
     @Value("${cache.lending-partner.enabled:false}")
     private boolean isCacheEnabled;
 

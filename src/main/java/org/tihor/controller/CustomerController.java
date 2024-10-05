@@ -1,14 +1,20 @@
 package org.tihor.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.tihor.model.Response;
+import org.tihor.model.request.FilterRequest;
 import org.tihor.service.CustomerService;
+
+import java.util.List;
 
 /**
  * The type Customer controller.
@@ -41,5 +47,16 @@ public class CustomerController {
     @GetMapping("/{id}")
     public ResponseEntity<Response> getCustomerDetailsById(@PathVariable("id") final Long id) {
         return ResponseEntity.ok(Response.withData(customerService.getCustomerDetails(id)));
+    }
+
+    /**
+     * Search api response entity.
+     *
+     * @param requests the requests
+     * @return the response entity
+     */
+    @PostMapping("/search")
+    public ResponseEntity<Response> searchApi(@RequestBody @Valid final List<FilterRequest> requests) {
+        return ResponseEntity.ok(Response.withData(customerService.searchCustomers(requests)));
     }
 }

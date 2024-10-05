@@ -7,8 +7,10 @@ import org.tihor.entity.CustomerEntity;
 import org.tihor.exception.ResourceNotFoundException;
 import org.tihor.mapper.CustomerMapper;
 import org.tihor.model.request.CustomerRequest;
+import org.tihor.model.request.FilterRequest;
 import org.tihor.model.response.CustomerResponse;
 import org.tihor.repository.CustomerRepository;
+import org.tihor.specification.CustomerSpecification;
 
 import java.util.List;
 import java.util.stream.StreamSupport;
@@ -50,7 +52,7 @@ public class CustomerService {
     public List<CustomerResponse> getCustomers() {
         var entities = customerRepository.findAll();
         return StreamSupport.stream(entities.spliterator(), false)
-                .map(entity -> customerMapper.mapEntityToResponse(entity))
+                .map(customerMapper::mapEntityToResponse)
                 .toList();
     }
 
@@ -64,5 +66,23 @@ public class CustomerService {
         var entity = customerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found for id: " + id));
         return customerMapper.mapEntityToResponse(entity, true);
+    }
+
+    /**
+     * Search customers list.
+     *
+     * @param list the list
+     * @return the list
+     */
+    public List<CustomerResponse> searchCustomers(final List<FilterRequest> list) {
+        if (list == null || list.isEmpty()) {
+            return getCustomers();
+        }
+
+        CustomerSpecification specification = new CustomerSpecification(list);
+        var entities = customerRepository.findAll(specification);
+        return entities.stream()
+                .map(customerMapper::mapEntityToResponse)
+                .toList();
     }
 }
