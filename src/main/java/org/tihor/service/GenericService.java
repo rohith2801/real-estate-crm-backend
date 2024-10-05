@@ -3,7 +3,6 @@ package org.tihor.service;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.tihor.entity.CustomerEntity;
 import org.tihor.model.request.GenericRequest;
 
 /**
@@ -29,12 +28,14 @@ public class GenericService {
      * @return the string
      */
     public String createData(final GenericRequest request) {
-        CustomerEntity customerEntity = customerService.createCustomer(request.getCustomerInfo());
-        propertyService.addPropertiesToCustomer(
-                customerEntity,
-                request.getPropertyInfo()
-        );
-
+        var customerEntity = customerService.createCustomer(request.getCustomerInfo());
+        propertyService.addPropertiesToCustomer(customerEntity, request.getPropertyInfo());
         return "Customer created successfully";
+    }
+
+    public String updateData(final Long id, final GenericRequest request) {
+        var customerEntity = customerService.updateCustomer(id, request.getCustomerInfo());
+        propertyService.updatePropertiesToCustomer(customerEntity, request.getPropertyInfo());
+        return "Customer information updated successfully";
     }
 }

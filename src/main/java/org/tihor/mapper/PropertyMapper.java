@@ -34,7 +34,7 @@ public class PropertyMapper {
                 .street(request.getStreet())
                 .pinCode(request.getPinCode())
                 .location(request.getLocation())
-                .propertyNumber(request.getApartmentNumber())
+                .propertyNumber(request.getPropertyNumber())
                 .size(request.getSize())
                 .type(request.getType())
                 .isReadyToSell(request.getIsReadyToSell())

@@ -24,7 +24,11 @@ public class CustomerMapper {
      * @return the customer entity
      */
     public CustomerEntity mapRequestToEntity(final CustomerRequest request) {
-        return CustomerEntity.builder()
+        return mapRequestToEntity(request, new CustomerEntity());
+    }
+
+    public CustomerEntity mapRequestToEntity(final CustomerRequest request, final CustomerEntity entity) {
+        return entity.toBuilder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .street(request.getStreet())

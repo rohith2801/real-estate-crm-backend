@@ -40,8 +40,7 @@ public class CustomerService {
      */
     public CustomerEntity createCustomer(final CustomerRequest request) {
         var entity = customerMapper.mapRequestToEntity(request);
-        entity = customerRepository.save(entity);
-        return entity;
+        return customerRepository.save(entity);
     }
 
     /**
@@ -84,5 +83,11 @@ public class CustomerService {
         return entities.stream()
                 .map(customerMapper::mapEntityToResponse)
                 .toList();
+    }
+
+    public CustomerEntity updateCustomer(final Long id, final CustomerRequest request) {
+        var entity = customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+        entity = customerMapper.mapRequestToEntity(request, entity);
+        return customerRepository.save(entity);
     }
 }

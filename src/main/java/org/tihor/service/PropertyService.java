@@ -1,9 +1,10 @@
 package org.tihor.service;
 
-import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.tihor.entity.CustomerEntity;
+import org.tihor.entity.PropertyEntity;
 import org.tihor.mapper.PropertyLendingPartnerMapper;
 import org.tihor.mapper.PropertyMapper;
 import org.tihor.model.request.PropertyRequest;
@@ -19,36 +20,33 @@ import java.util.stream.Collectors;
  * The type Property service.
  */
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class PropertyService {
     /**
      * The Property repository.
      */
-    @Resource
-    private PropertyRepository propertyRepository;
+    private final PropertyRepository propertyRepository;
 
     /**
      * The Property lending partner repository.
      */
-    @Resource
-    private PropertyLendingPartnerRepository propertyLendingPartnerRepository;
+    private final PropertyLendingPartnerRepository propertyLendingPartnerRepository;
 
     /**
      * The Lending partner service.
      */
-    @Autowired
-    private LendingPartnerService lendingPartnerService;
+    private final LendingPartnerService lendingPartnerService;
 
     /**
      * The Property mapper.
      */
-    @Autowired
-    private PropertyMapper propertyMapper;
+    private final PropertyMapper propertyMapper;
 
     /**
      * The Property lending partner mapper.
      */
-    @Autowired
-    private PropertyLendingPartnerMapper propertyLendingPartnerMapper;
+    private final PropertyLendingPartnerMapper propertyLendingPartnerMapper;
 
     /**
      * Add properties to customer list.
@@ -59,9 +57,9 @@ public class PropertyService {
      */
     public List<PropertyResponse> addPropertiesToCustomer(
             final CustomerEntity customerEntity,
-            final List<PropertyRequest> propertyRequests
+            final List<PropertyRequest> propertyList
     ) {
-        propertyRequests.forEach(propertyRequest -> {
+        propertyList.forEach(propertyRequest -> {
             var entity = propertyMapper.mapRequestToEntity(propertyRequest, customerEntity);
             entity = propertyRepository.save(entity);
 
@@ -75,5 +73,18 @@ public class PropertyService {
         });
 
         return Collections.emptyList();
+    }
+
+    public void deleteProperties(final List<PropertyEntity> entities) {
+        entities.forEach(propertyLendingPartnerRepository::deleteAllByPropertyEntity);
+        propertyRepository.deleteAll(entities);
+    }
+
+    public List<PropertyResponse> updatePropertiesToCustomer(
+            final CustomerEntity customerEntity,
+            final List<PropertyRequest> propertyList
+    ) {
+        deleteProperties(customerEntity.getPropertyEntities());
+        return addPropertiesToCustomer(customerEntity, propertyList);
     }
 }
