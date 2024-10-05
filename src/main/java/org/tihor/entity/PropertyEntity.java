@@ -45,6 +45,11 @@ public class PropertyEntity implements Serializable {
     private CustomerEntity customerEntity;
 
     /**
+     * The Property number.
+     */
+    private String propertyNumber;
+
+    /**
      * The Street.
      */
     private String street;
@@ -58,11 +63,6 @@ public class PropertyEntity implements Serializable {
      * The Location.
      */
     private String location;
-
-    /**
-     * The Apartment number.
-     */
-    private String apartmentNumber;
 
     /**
      * The Size.

@@ -37,9 +37,9 @@ public class PropertyResponse implements Serializable {
     private String location;
 
     /**
-     * The Apartment number.
+     * The Property number.
      */
-    private String apartmentNumber;
+    private String propertyNumber;
 
     /**
      * The Size.
