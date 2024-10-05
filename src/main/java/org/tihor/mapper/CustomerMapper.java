@@ -27,6 +27,13 @@ public class CustomerMapper {
         return mapRequestToEntity(request, new CustomerEntity());
     }
 
+    /**
+     * Map request to entity customer entity.
+     *
+     * @param request the request
+     * @param entity  the entity
+     * @return the customer entity
+     */
     public CustomerEntity mapRequestToEntity(final CustomerRequest request, final CustomerEntity entity) {
         return entity.toBuilder()
                 .firstName(request.getFirstName())
@@ -36,6 +43,7 @@ public class CustomerMapper {
                 .location(request.getLocation())
                 .cellPhone(request.getCellPhone())
                 .emailId(request.getEmailId())
+                .isDeleted(false)
                 .build();
     }
 

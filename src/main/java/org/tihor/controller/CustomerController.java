@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,5 +59,16 @@ public class CustomerController {
     @PostMapping("/search")
     public ResponseEntity<Response> searchApi(@RequestBody @Valid final List<FilterRequest> requests) {
         return ResponseEntity.ok(Response.withData(customerService.searchCustomers(requests)));
+    }
+
+    /**
+     * Delete customer response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Response> deleteCustomer(@PathVariable("id") final Long id) {
+        return ResponseEntity.ok(Response.withData(customerService.deleteCustomer(id)));
     }
 }

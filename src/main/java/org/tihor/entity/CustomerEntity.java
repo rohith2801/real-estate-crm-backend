@@ -67,6 +67,11 @@ public class CustomerEntity implements Serializable {
     private String emailId;
 
     /**
+     * The Is deleted.
+     */
+    private Boolean isDeleted;
+
+    /**
      * The Property entities.
      */
     @OneToMany(mappedBy = "customerEntity")

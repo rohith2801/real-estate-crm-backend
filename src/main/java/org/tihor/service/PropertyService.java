@@ -51,8 +51,8 @@ public class PropertyService {
     /**
      * Add properties to customer list.
      *
-     * @param customerEntity   the customer entity
-     * @param propertyRequests the property requests
+     * @param customerEntity the customer entity
+     * @param propertyList   the property list
      * @return the list
      */
     public List<PropertyResponse> addPropertiesToCustomer(
@@ -75,11 +75,23 @@ public class PropertyService {
         return Collections.emptyList();
     }
 
+    /**
+     * Delete properties.
+     *
+     * @param entities the entities
+     */
     public void deleteProperties(final List<PropertyEntity> entities) {
         entities.forEach(propertyLendingPartnerRepository::deleteAllByPropertyEntity);
         propertyRepository.deleteAll(entities);
     }
 
+    /**
+     * Update properties to customer list.
+     *
+     * @param customerEntity the customer entity
+     * @param propertyList   the property list
+     * @return the list
+     */
     public List<PropertyResponse> updatePropertiesToCustomer(
             final CustomerEntity customerEntity,
             final List<PropertyRequest> propertyList

@@ -1,9 +1,9 @@
 package org.tihor.service;
 
-import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.tihor.entity.CustomerEntity;
+import org.tihor.enums.SearchOperationType;
 import org.tihor.exception.ResourceNotFoundException;
 import org.tihor.mapper.CustomerMapper;
 import org.tihor.model.request.CustomerRequest;
@@ -13,24 +13,22 @@ import org.tihor.repository.CustomerRepository;
 import org.tihor.specification.CustomerSpecification;
 
 import java.util.List;
-import java.util.stream.StreamSupport;
 
 /**
  * The type Customer service.
  */
 @Service
+@RequiredArgsConstructor
 public class CustomerService {
     /**
      * The Customer repository.
      */
-    @Resource
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     /**
      * The Customer mapper.
      */
-    @Autowired
-    private CustomerMapper customerMapper;
+    private final CustomerMapper customerMapper;
 
     /**
      * Create customer customer entity.
@@ -49,8 +47,8 @@ public class CustomerService {
      * @return the customers
      */
     public List<CustomerResponse> getCustomers() {
-        var entities = customerRepository.findAll();
-        return StreamSupport.stream(entities.spliterator(), false)
+        return customerRepository.findByIsDeleted(false)
+                .stream()
                 .map(customerMapper::mapEntityToResponse)
                 .toList();
     }
@@ -62,7 +60,7 @@ public class CustomerService {
      * @return the customer details
      */
     public CustomerResponse getCustomerDetails(final Long id) {
-        var entity = customerRepository.findById(id)
+        var entity = customerRepository.findByIdAndIsDeleted(id, false)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found for id: " + id));
         return customerMapper.mapEntityToResponse(entity, true);
     }
@@ -78,6 +76,7 @@ public class CustomerService {
             return getCustomers();
         }
 
+        list.add(new FilterRequest("isDeleted", false, SearchOperationType.EQUAL));
         CustomerSpecification specification = new CustomerSpecification(list);
         var entities = customerRepository.findAll(specification);
         return entities.stream()
@@ -85,9 +84,31 @@ public class CustomerService {
                 .toList();
     }
 
+    /**
+     * Update customer customer entity.
+     *
+     * @param id      the id
+     * @param request the request
+     * @return the customer entity
+     */
     public CustomerEntity updateCustomer(final Long id, final CustomerRequest request) {
-        var entity = customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+        var entity = customerRepository.findByIdAndIsDeleted(id, false)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found for id: " + id));
         entity = customerMapper.mapRequestToEntity(request, entity);
         return customerRepository.save(entity);
+    }
+
+    /**
+     * Delete customer string.
+     *
+     * @param id the id
+     * @return the string
+     */
+    public String deleteCustomer(final Long id) {
+        var entity = customerRepository.findByIdAndIsDeleted(id, false)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found for id: " + id));
+        entity.setIsDeleted(true);
+        customerRepository.save(entity);
+        return "Customer deleted successfully";
     }
 }

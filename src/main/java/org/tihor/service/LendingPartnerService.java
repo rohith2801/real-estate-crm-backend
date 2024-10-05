@@ -1,8 +1,7 @@
 package org.tihor.service;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
@@ -21,18 +20,17 @@ import java.util.stream.StreamSupport;
  */
 @Service
 @DependsOn("lendingPartnerRunner")
+@RequiredArgsConstructor
 public class LendingPartnerService {
     /**
      * The Lending partner repository.
      */
-    @Resource
-    private LendingPartnerRepository lendingPartnerRepository;
+    private final LendingPartnerRepository lendingPartnerRepository;
 
     /**
      * The Lending partner mapper.
      */
-    @Autowired
-    private LendingPartnerMapper lendingPartnerMapper;
+    private final LendingPartnerMapper lendingPartnerMapper;
 
     /**
      * The Is cache enabled.

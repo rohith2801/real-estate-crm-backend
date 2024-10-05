@@ -39,6 +39,13 @@ public class GenericController {
                 .body(Response.withData(genericService.createData(request)));
     }
 
+    /**
+     * Update data response entity.
+     *
+     * @param id      the id
+     * @param request the request
+     * @return the response entity
+     */
     @PutMapping("/{id}")
     public ResponseEntity<Response> updateData(
             @PathVariable final Long id,

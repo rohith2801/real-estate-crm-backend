@@ -33,6 +33,13 @@ public class GenericService {
         return "Customer created successfully";
     }
 
+    /**
+     * Update data string.
+     *
+     * @param id      the id
+     * @param request the request
+     * @return the string
+     */
     public String updateData(final Long id, final GenericRequest request) {
         var customerEntity = customerService.updateCustomer(id, request.getCustomerInfo());
         propertyService.updatePropertiesToCustomer(customerEntity, request.getPropertyInfo());
