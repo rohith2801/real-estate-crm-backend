@@ -6,7 +6,7 @@ import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
-import org.tihor.entity.CustomerEntity;
+import org.tihor.entity.UserEntity;
 import org.tihor.enums.SearchOperationType;
 import org.tihor.model.request.FilterRequest;
 
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * The type Customer specification.
  */
-public class CustomerSpecification implements Specification<CustomerEntity> {
+public class UserSpecification implements Specification<UserEntity> {
     /**
      * The List.
      */
@@ -27,7 +27,7 @@ public class CustomerSpecification implements Specification<CustomerEntity> {
      *
      * @param list the list
      */
-    public CustomerSpecification(final List<FilterRequest> list) {
+    public UserSpecification(final List<FilterRequest> list) {
         this.list = list;
     }
 
@@ -41,7 +41,7 @@ public class CustomerSpecification implements Specification<CustomerEntity> {
      */
     @Override
     public Predicate toPredicate(
-            final Root<CustomerEntity> root,
+            final Root<UserEntity> root,
             final CriteriaQuery<?> query,
             final CriteriaBuilder builder
     ) {
@@ -60,7 +60,7 @@ public class CustomerSpecification implements Specification<CustomerEntity> {
      * @param builder the builder
      * @return the list
      */
-    private List<Predicate> toPredicateList(final Root<CustomerEntity> root, final CriteriaBuilder builder) {
+    private List<Predicate> toPredicateList(final Root<UserEntity> root, final CriteriaBuilder builder) {
         List<Predicate> predicates = new ArrayList<>();
 
         for (FilterRequest criteria : list) {

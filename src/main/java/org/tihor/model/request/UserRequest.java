@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-public class CustomerRequest implements Serializable {
+public class UserRequest implements Serializable {
 
     /**
      * The First name.
@@ -46,4 +46,6 @@ public class CustomerRequest implements Serializable {
      * The Email id.
      */
     private String emailId;
+
+    private String username;
 }

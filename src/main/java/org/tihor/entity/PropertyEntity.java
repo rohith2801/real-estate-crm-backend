@@ -41,8 +41,8 @@ public class PropertyEntity implements Serializable {
      * The Customer entity.
      */
     @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private CustomerEntity customerEntity;
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
 
     /**
      * The Property number.

@@ -3,7 +3,7 @@ package org.tihor.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.tihor.entity.CustomerEntity;
+import org.tihor.entity.UserEntity;
 import org.tihor.entity.PropertyEntity;
 import org.tihor.mapper.PropertyLendingPartnerMapper;
 import org.tihor.mapper.PropertyMapper;
@@ -56,7 +56,7 @@ public class PropertyService {
      * @return the list
      */
     public List<PropertyResponse> addPropertiesToCustomer(
-            final CustomerEntity customerEntity,
+            final UserEntity customerEntity,
             final List<PropertyRequest> propertyList
     ) {
         propertyList.forEach(propertyRequest -> {
@@ -93,7 +93,7 @@ public class PropertyService {
      * @return the list
      */
     public List<PropertyResponse> updatePropertiesToCustomer(
-            final CustomerEntity customerEntity,
+            final UserEntity customerEntity,
             final List<PropertyRequest> propertyList
     ) {
         deleteProperties(customerEntity.getPropertyEntities());

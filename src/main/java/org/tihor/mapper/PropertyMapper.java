@@ -2,8 +2,8 @@ package org.tihor.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.tihor.entity.CustomerEntity;
 import org.tihor.entity.PropertyEntity;
+import org.tihor.entity.UserEntity;
 import org.tihor.model.request.PropertyRequest;
 import org.tihor.model.response.PropertyResponse;
 
@@ -28,9 +28,9 @@ public class PropertyMapper {
      * @param customerEntity the customer entity
      * @return the property entity
      */
-    public PropertyEntity mapRequestToEntity(final PropertyRequest request, final CustomerEntity customerEntity) {
+    public PropertyEntity mapRequestToEntity(final PropertyRequest request, final UserEntity customerEntity) {
         return PropertyEntity.builder()
-                .customerEntity(customerEntity)
+                .userEntity(customerEntity)
                 .street(request.getStreet())
                 .pinCode(request.getPinCode())
                 .location(request.getLocation())
