@@ -1,6 +1,8 @@
 package org.tihor.mapper;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.tihor.entity.UserEntity;
 import org.tihor.enums.UserType;
@@ -13,6 +15,12 @@ import org.tihor.model.response.CustomerResponse;
 @Component
 public class UserMapper {
     /**
+     * The Password encoder.
+     */
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    /**
      * Map request to entity user entity.
      *
      * @param request  the request
@@ -22,7 +30,7 @@ public class UserMapper {
     public UserEntity mapRequestToEntity(final UserRequest request, final UserType userType) {
         return mapRequestToEntity(request, new UserEntity())
                 .toBuilder()
-                .password("P@ssw0rd")
+                .password(passwordEncoder.encode("P@ssw0rd"))
                 .userType(userType)
                 .isDeleted(false)
                 .build();

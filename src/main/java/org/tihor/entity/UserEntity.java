@@ -14,9 +14,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.tihor.enums.UserType;
 
-import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,7 +31,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class UserEntity implements Serializable {
+public class UserEntity implements UserDetails {
     /**
      * The Id.
      */
@@ -104,4 +107,14 @@ public class UserEntity implements Serializable {
      */
     @OneToMany(mappedBy = "userEntity")
     private List<PropertyEntity> propertyEntities;
+
+    /**
+     * Gets authorities.
+     *
+     * @return the authorities
+     */
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(roleEntity.getName()));
+    }
 }

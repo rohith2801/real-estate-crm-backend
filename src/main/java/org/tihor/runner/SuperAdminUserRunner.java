@@ -1,9 +1,11 @@
 package org.tihor.runner;
 
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.tihor.entity.RoleEntity;
 import org.tihor.entity.UserEntity;
@@ -30,6 +32,12 @@ public class SuperAdminUserRunner implements ApplicationRunner {
     private RoleRepository roleRepository;
 
     /**
+     * The Password encoder.
+     */
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    /**
      * Run.
      *
      * @param args the args
@@ -51,7 +59,7 @@ public class SuperAdminUserRunner implements ApplicationRunner {
                 .cellPhone("+49 9999999999")
                 .emailId(email)
                 .username(email)
-                .password("SuperAdmin")
+                .password(passwordEncoder.encode("SuperAdmin"))
                 .userType(UserType.INTERNAL)
                 .roleEntity(roleRepository.findByName(RoleEntity.ROLE_SUPER_ADMIN).orElseThrow())
                 .isDeleted(false)
