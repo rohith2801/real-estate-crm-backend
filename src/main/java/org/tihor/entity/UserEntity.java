@@ -99,6 +99,9 @@ public class UserEntity implements Serializable {
      */
     private Boolean isDeleted;
 
+    /**
+     * The Property entities.
+     */
     @OneToMany(mappedBy = "userEntity")
     private List<PropertyEntity> propertyEntities;
 }

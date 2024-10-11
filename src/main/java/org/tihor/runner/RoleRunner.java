@@ -3,6 +3,7 @@ package org.tihor.runner;
 import jakarta.annotation.Resource;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.tihor.entity.RoleEntity;
 import org.tihor.repository.RoleRepository;
@@ -13,6 +14,7 @@ import java.util.List;
  * The type Role runner.
  */
 @Component
+@Order(1)
 public class RoleRunner implements ApplicationRunner {
     /**
      * The Role repository.

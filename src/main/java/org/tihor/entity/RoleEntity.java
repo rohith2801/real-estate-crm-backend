@@ -23,6 +23,11 @@ import java.io.Serializable;
 @Builder
 public class RoleEntity implements Serializable {
     /**
+     * The constant ROLE_SUPER_ADMIN.
+     */
+    public static final String ROLE_SUPER_ADMIN = "SUPER_ADMIN";
+
+    /**
      * The Id.
      */
     @Id

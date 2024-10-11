@@ -13,7 +13,7 @@ import org.tihor.model.request.CustomerPropertyRequest;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class GenericService {
     /**
-     * The Customer service.
+     * The User service.
      */
     private final UserService userService;
 

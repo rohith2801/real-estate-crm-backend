@@ -6,7 +6,7 @@ import lombok.Setter;
 import java.io.Serializable;
 
 /**
- * The type Customer request.
+ * The type User request.
  */
 @Getter
 @Setter
@@ -47,5 +47,8 @@ public class UserRequest implements Serializable {
      */
     private String emailId;
 
+    /**
+     * The Username.
+     */
     private String username;
 }

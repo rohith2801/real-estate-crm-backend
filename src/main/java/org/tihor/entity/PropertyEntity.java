@@ -38,7 +38,7 @@ public class PropertyEntity implements Serializable {
     private Long id;
 
     /**
-     * The Customer entity.
+     * The User entity.
      */
     @ManyToOne
     @JoinColumn(name = "user_id")

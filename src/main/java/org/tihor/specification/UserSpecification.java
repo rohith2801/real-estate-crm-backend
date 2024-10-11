@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The type Customer specification.
+ * The type User specification.
  */
 public class UserSpecification implements Specification<UserEntity> {
     /**
@@ -23,7 +23,7 @@ public class UserSpecification implements Specification<UserEntity> {
     private final List<FilterRequest> list;
 
     /**
-     * Instantiates a new Customer specification.
+     * Instantiates a new User specification.
      *
      * @param list the list
      */

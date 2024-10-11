@@ -18,14 +18,14 @@ import org.tihor.service.UserService;
 import java.util.List;
 
 /**
- * The type Customer controller.
+ * The type User controller.
  */
 @RestController
 @RequestMapping("/api/v1/user")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
     /**
-     * The Customer service.
+     * The User service.
      */
     private final UserService userService;
 
@@ -62,7 +62,7 @@ public class UserController {
     }
 
     /**
-     * Delete customer response entity.
+     * Delete user response entity.
      *
      * @param id the id
      * @return the response entity

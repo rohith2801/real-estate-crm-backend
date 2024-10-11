@@ -17,20 +17,46 @@ import org.tihor.specification.UserSpecification;
 
 import java.util.List;
 
+/**
+ * The type User service.
+ */
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    /**
+     * The User repository.
+     */
     private final UserRepository userRepository;
 
+    /**
+     * The User mapper.
+     */
     private final UserMapper userMapper;
 
+    /**
+     * The Property mapper.
+     */
     private final PropertyMapper propertyMapper;
 
+    /**
+     * Create user user entity.
+     *
+     * @param request  the request
+     * @param userType the user type
+     * @return the user entity
+     */
     public UserEntity createUser(final UserRequest request, final UserType userType) {
         var userEntity = userMapper.mapRequestToEntity(request, userType);
         return userRepository.save(userEntity);
     }
 
+    /**
+     * Update user user entity.
+     *
+     * @param id      the id
+     * @param request the request
+     * @return the user entity
+     */
     public UserEntity updateUser(final Long id, final UserRequest request) {
         var userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found for id: " + id));
@@ -38,6 +64,12 @@ public class UserService {
         return userRepository.save(userEntity);
     }
 
+    /**
+     * Delete user string.
+     *
+     * @param id the id
+     * @return the string
+     */
     public String deleteUser(final Long id) {
         var entity = userRepository.findByIdAndIsDeleted(id, false)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found for id: " + id));
