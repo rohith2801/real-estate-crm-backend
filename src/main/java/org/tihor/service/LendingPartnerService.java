@@ -49,7 +49,10 @@ public class LendingPartnerService {
     @PostConstruct
     public void postConstruct() {
         lendingPartnerEntityMap = new HashMap<>();
-        lendingPartnerRepository.findAll().forEach(entity -> lendingPartnerEntityMap.put(entity.getId(), entity));
+        if (isCacheEnabled) {
+            lendingPartnerRepository.findAll()
+                    .forEach(entity -> lendingPartnerEntityMap.put(entity.getId(), entity));
+        }
     }
 
     /**

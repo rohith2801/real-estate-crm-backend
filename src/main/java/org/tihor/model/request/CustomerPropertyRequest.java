@@ -15,7 +15,7 @@ public class CustomerPropertyRequest implements Serializable {
     /**
      * The Customer info.
      */
-    private CustomerRequest customerInfo;
+    private UserRequest customerInfo;
 
     /**
      * The Property info.

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.tihor.model.Response;
 import org.tihor.model.request.FilterRequest;
-import org.tihor.service.CustomerService;
+import org.tihor.service.UserService;
 
 import java.util.List;
 
@@ -21,22 +21,22 @@ import java.util.List;
  * The type Customer controller.
  */
 @RestController
-@RequestMapping("/api/v1/customer")
+@RequestMapping("/api/v1/user")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class CustomerController {
+public class UserController {
     /**
      * The Customer service.
      */
-    private final CustomerService customerService;
+    private final UserService userService;
 
     /**
      * Gets customers.
      *
      * @return the customers
      */
-    @GetMapping
+    @GetMapping("/customers")
     public ResponseEntity<Response> getCustomers() {
-        return ResponseEntity.ok(Response.withData(customerService.getCustomers()));
+        return ResponseEntity.ok(Response.withData(userService.getCustomers()));
     }
 
     /**
@@ -45,9 +45,9 @@ public class CustomerController {
      * @param id the id
      * @return the customer details by id
      */
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/customer-details")
     public ResponseEntity<Response> getCustomerDetailsById(@PathVariable("id") final Long id) {
-        return ResponseEntity.ok(Response.withData(customerService.getCustomerDetails(id)));
+        return ResponseEntity.ok(Response.withData(userService.getCustomerDetails(id)));
     }
 
     /**
@@ -56,9 +56,9 @@ public class CustomerController {
      * @param requests the requests
      * @return the response entity
      */
-    @PostMapping("/search")
+    @PostMapping("/customer/search")
     public ResponseEntity<Response> searchApi(@RequestBody @Valid final List<FilterRequest> requests) {
-        return ResponseEntity.ok(Response.withData(customerService.searchCustomers(requests)));
+        return ResponseEntity.ok(Response.withData(userService.searchCustomers(requests)));
     }
 
     /**
@@ -68,7 +68,7 @@ public class CustomerController {
      * @return the response entity
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Response> deleteCustomer(@PathVariable("id") final Long id) {
-        return ResponseEntity.ok(Response.withData(customerService.deleteCustomer(id)));
+    public ResponseEntity<Response> deleteUser(@PathVariable("id") final Long id) {
+        return ResponseEntity.ok(Response.withData(userService.deleteUser(id)));
     }
 }
