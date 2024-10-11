@@ -6,8 +6,10 @@ import org.tihor.entity.CustomerEntity;
 import org.tihor.enums.SearchOperationType;
 import org.tihor.exception.ResourceNotFoundException;
 import org.tihor.mapper.CustomerMapper;
+import org.tihor.mapper.PropertyMapper;
 import org.tihor.model.request.CustomerRequest;
 import org.tihor.model.request.FilterRequest;
+import org.tihor.model.response.CustomerPropertyResponse;
 import org.tihor.model.response.CustomerResponse;
 import org.tihor.repository.CustomerRepository;
 import org.tihor.specification.CustomerSpecification;
@@ -29,6 +31,11 @@ public class CustomerService {
      * The Customer mapper.
      */
     private final CustomerMapper customerMapper;
+
+    /**
+     * The Property mapper.
+     */
+    private final PropertyMapper propertyMapper;
 
     /**
      * Create customer customer entity.
@@ -59,10 +66,16 @@ public class CustomerService {
      * @param id the id
      * @return the customer details
      */
-    public CustomerResponse getCustomerDetails(final Long id) {
+    public CustomerPropertyResponse getCustomerDetails(final Long id) {
         var entity = customerRepository.findByIdAndIsDeleted(id, false)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found for id: " + id));
-        return customerMapper.mapEntityToResponse(entity, true);
+        var customerResponse = customerMapper.mapEntityToResponse(entity);
+        var propertyResponseList = propertyMapper.mapEntitiesToResponses(entity.getPropertyEntities());
+
+        return CustomerPropertyResponse.builder()
+                .customerInfo(customerResponse)
+                .propertyInfo(propertyResponseList)
+                .build();
     }
 
     /**

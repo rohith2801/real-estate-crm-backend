@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.tihor.model.Response;
-import org.tihor.model.request.GenericRequest;
+import org.tihor.model.request.CustomerPropertyRequest;
 import org.tihor.service.GenericService;
 
 /**
@@ -34,7 +34,7 @@ public class GenericController {
      * @return the response entity
      */
     @PostMapping
-    public ResponseEntity<Response> createData(@RequestBody @Valid final GenericRequest request) {
+    public ResponseEntity<Response> createData(@RequestBody @Valid final CustomerPropertyRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(Response.withData(genericService.createData(request)));
     }
@@ -49,7 +49,7 @@ public class GenericController {
     @PutMapping("/{id}")
     public ResponseEntity<Response> updateData(
             @PathVariable final Long id,
-            @RequestBody @Valid final GenericRequest request
+            @RequestBody @Valid final CustomerPropertyRequest request
     ) {
         return ResponseEntity.ok(Response.withData(genericService.updateData(id, request)));
     }

@@ -3,7 +3,7 @@ package org.tihor.service;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.tihor.model.request.GenericRequest;
+import org.tihor.model.request.CustomerPropertyRequest;
 
 /**
  * The type Generic service.
@@ -27,7 +27,7 @@ public class GenericService {
      * @param request the request
      * @return the string
      */
-    public String createData(final GenericRequest request) {
+    public String createData(final CustomerPropertyRequest request) {
         var customerEntity = customerService.createCustomer(request.getCustomerInfo());
         propertyService.addPropertiesToCustomer(customerEntity, request.getPropertyInfo());
         return "Customer created successfully";
@@ -40,7 +40,7 @@ public class GenericService {
      * @param request the request
      * @return the string
      */
-    public String updateData(final Long id, final GenericRequest request) {
+    public String updateData(final Long id, final CustomerPropertyRequest request) {
         var customerEntity = customerService.updateCustomer(id, request.getCustomerInfo());
         propertyService.updatePropertiesToCustomer(customerEntity, request.getPropertyInfo());
         return "Customer information updated successfully";

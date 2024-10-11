@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-@Builder
+@Builder(toBuilder = true)
 public class PropertyLendingPartnerResponse implements Serializable {
     /**
      * The Id.
@@ -19,9 +19,14 @@ public class PropertyLendingPartnerResponse implements Serializable {
     private Long id;
 
     /**
-     * The Lending partner response.
+     * The Lending partner id.
      */
-    private LendingPartnerResponse lendingPartnerResponse;
+    private Long lendingPartnerId;
+
+    /**
+     * The Lending partner.
+     */
+    private LendingPartnerResponse lendingPartner;
 
     /**
      * The Loan amount.

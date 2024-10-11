@@ -67,7 +67,7 @@ public class PropertyMapper {
                 .soldPrice(entity.getSoldPrice())
                 .soldDate(entity.getSoldDate())
                 .createdDate(entity.getCreatedDate())
-                .lendingPartnerResponses(propertyLendingPartnerMapper.mapEntitiesToResponses(entity.getPropertyLendingPartnerEntities()))
+                .lendingPartners(propertyLendingPartnerMapper.mapEntitiesToResponses(entity.getPropertyLendingPartnerEntities()))
                 .build();
     }
 

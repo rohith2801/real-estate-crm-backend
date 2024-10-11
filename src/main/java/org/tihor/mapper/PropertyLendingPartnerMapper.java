@@ -53,16 +53,21 @@ public class PropertyLendingPartnerMapper {
      * @return the property lending partner response
      */
     public PropertyLendingPartnerResponse mapEntityToResponse(final PropertyLendingPartnerEntity entity) {
-        return PropertyLendingPartnerResponse.builder()
+        var builder = PropertyLendingPartnerResponse.builder()
                 .id(entity.getId())
                 .loanAmount(entity.getLoanAmount())
                 .rateOfInterest(entity.getRateOfInterest())
                 .tenureInMonths(entity.getTenureInMonths())
                 .redemption(entity.getRedemption())
                 .rate(entity.getRate())
-                .notes(entity.getNotes())
-                .lendingPartnerResponse(lendingPartnerMapper.mapEntityToResponse(entity.getLendingPartnerEntity()))
-                .build();
+                .notes(entity.getNotes());
+
+        if (entity.getLendingPartnerEntity() != null) {
+            builder.lendingPartner(lendingPartnerMapper.mapEntityToResponse(entity.getLendingPartnerEntity()))
+                    .lendingPartnerId(entity.getLendingPartnerEntity().getId());
+        }
+
+        return builder.build();
     }
 
     /**

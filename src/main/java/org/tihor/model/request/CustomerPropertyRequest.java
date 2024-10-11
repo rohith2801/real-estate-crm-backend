@@ -7,11 +7,11 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * The type Generic request.
+ * The type Customer property request.
  */
 @Getter
 @Setter
-public class GenericRequest implements Serializable {
+public class CustomerPropertyRequest implements Serializable {
     /**
      * The Customer info.
      */

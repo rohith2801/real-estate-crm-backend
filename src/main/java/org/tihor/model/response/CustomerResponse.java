@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * The type Customer response.
@@ -53,9 +52,4 @@ public class CustomerResponse implements Serializable {
      * The Email id.
      */
     private String emailId;
-
-    /**
-     * The Property responses.
-     */
-    private List<PropertyResponse> propertyResponses;
 }

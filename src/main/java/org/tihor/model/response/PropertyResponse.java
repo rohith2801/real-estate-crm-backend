@@ -82,7 +82,7 @@ public class PropertyResponse implements Serializable {
     private LocalDate soldDate;
 
     /**
-     * The Lending partner responses.
+     * The Lending partners.
      */
-    private List<PropertyLendingPartnerResponse> lendingPartnerResponses;
+    private List<PropertyLendingPartnerResponse> lendingPartners;
 }
