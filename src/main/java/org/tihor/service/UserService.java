@@ -1,13 +1,19 @@
 package org.tihor.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.tihor.entity.UserEntity;
 import org.tihor.enums.SearchOperationType;
 import org.tihor.enums.UserType;
+import org.tihor.exception.InvalidRequestException;
 import org.tihor.exception.ResourceNotFoundException;
 import org.tihor.mapper.PropertyMapper;
 import org.tihor.mapper.UserMapper;
+import org.tihor.model.request.ChangePasswordRequest;
+import org.tihor.model.request.ForgotPasswordRequest;
 import org.tihor.model.request.UserRequest;
 import org.tihor.model.request.FilterRequest;
 import org.tihor.model.response.CustomerPropertyResponse;
@@ -29,6 +35,11 @@ public class UserService {
     private final UserRepository userRepository;
 
     /**
+     * The Password encoder.
+     */
+    private final PasswordEncoder passwordEncoder;
+
+    /**
      * The User mapper.
      */
     private final UserMapper userMapper;
@@ -37,6 +48,12 @@ public class UserService {
      * The Property mapper.
      */
     private final PropertyMapper propertyMapper;
+
+    /**
+     * The Static otp.
+     */
+    @Value("${user.forgot-password.otp:9292}")
+    private String staticOtp;
 
     /**
      * Create user user entity.
@@ -128,5 +145,64 @@ public class UserService {
         return entities.stream()
                 .map(userMapper::mapEntityToResponse)
                 .toList();
+    }
+
+    /**
+     * Forgot password string.
+     *
+     * @param request the request
+     * @return the string
+     */
+    public String forgotPassword(final ForgotPasswordRequest request) {
+        if (!StringUtils.equals(request.getPassword(), request.getConfirmPassword())) {
+            throw new InvalidRequestException("Password and confirm password does not match");
+        }
+
+        var entity = userRepository.findByUsernameAndIsDeleted(request.getUsername(), false)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (!validateOtp(request)) {
+            throw new InvalidRequestException("Invalid Otp");
+        }
+
+        entity.setPassword(passwordEncoder.encode(request.getPassword()));
+        userRepository.save(entity);
+
+        return "Password updated successfully";
+    }
+
+    /**
+     * Change password string.
+     *
+     * @param request the request
+     * @return the string
+     */
+    public String changePassword(final ChangePasswordRequest request) {
+        if (!StringUtils.equals(request.getNewPassword(), request.getConfirmNewPassword())) {
+            throw new InvalidRequestException("Password and confirm password does not match");
+        }
+
+        var entity = userRepository.findByIdAndIsDeleted(request.getId(), false)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        boolean isCurrentPasswordMatched = passwordEncoder.matches(request.getCurrentPassword(), entity.getPassword());
+        if (!isCurrentPasswordMatched) {
+            throw new InvalidRequestException("Invalid password");
+        }
+
+        entity.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(entity);
+
+        return "Password updated successfully";
+    }
+
+    /**
+     * Validate otp boolean.
+     *
+     * @param request the request
+     * @return the boolean
+     */
+    private boolean validateOtp(final ForgotPasswordRequest request) {
+        return StringUtils.equals(request.getOtp(), staticOtp);
     }
 }

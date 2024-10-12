@@ -78,7 +78,12 @@ public class SpringSecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        var list = new String[]{"/api/v1/auth/**", "/v3/api-docs/**", "/swagger-ui/**"};
+        var list = new String[]{
+                "/api/v1/auth/**",
+                "/api/v1/user/forgot-password",
+                "/v3/api-docs/**",
+                "/swagger-ui/**"
+        };
 
         http.cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)

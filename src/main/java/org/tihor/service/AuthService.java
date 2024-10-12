@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+import org.tihor.exception.ResourceNotFoundException;
 import org.tihor.model.request.LoginRequest;
 import org.tihor.model.response.LoginResponse;
 import org.tihor.repository.UserRepository;
@@ -40,7 +41,7 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
         var user = userRepository.findByUsernameAndIsDeleted(request.getUsername(), false)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
+                .orElseThrow(() -> new ResourceNotFoundException("Invalid email or password"));
         var jwt = jwtService.generateToken(user);
 
         return LoginResponse.builder().jwt(jwt).build();

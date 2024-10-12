@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.tihor.exception.InvalidRequestException;
 import org.tihor.exception.ResourceNotFoundException;
 import org.tihor.model.Response;
 
@@ -41,6 +42,21 @@ public class ExceptionAdvice {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Response.withErrors(errors));
+    }
+
+    /**
+     * Handle invalid request exception response entity.
+     *
+     * @param exception the exception
+     * @return the response entity
+     */
+    @ResponseBody
+    @ExceptionHandler(InvalidRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Response> handleInvalidRequestException(final InvalidRequestException exception) {
+        log.error("Invalid request Exception.", exception);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Response.withErrors(List.of(exception.getMessage())));
     }
 
     /**

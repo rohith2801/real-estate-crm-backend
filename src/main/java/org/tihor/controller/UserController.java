@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.tihor.model.Response;
+import org.tihor.model.request.ChangePasswordRequest;
 import org.tihor.model.request.FilterRequest;
+import org.tihor.model.request.ForgotPasswordRequest;
 import org.tihor.service.UserService;
 
 import java.util.List;
@@ -70,5 +72,27 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Response> deleteUser(@PathVariable("id") final Long id) {
         return ResponseEntity.ok(Response.withData(userService.deleteUser(id)));
+    }
+
+    /**
+     * Forgot password response entity.
+     *
+     * @param request the request
+     * @return the response entity
+     */
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Response> forgotPassword(@RequestBody @Valid final ForgotPasswordRequest request) {
+        return ResponseEntity.ok(Response.withData(userService.forgotPassword(request)));
+    }
+
+    /**
+     * Change password response entity.
+     *
+     * @param request the request
+     * @return the response entity
+     */
+    @PostMapping("/change-password")
+    public ResponseEntity<Response> changePassword(@RequestBody @Valid final ChangePasswordRequest request) {
+        return ResponseEntity.ok(Response.withData(userService.changePassword(request)));
     }
 }
