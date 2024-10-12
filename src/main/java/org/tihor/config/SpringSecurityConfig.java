@@ -1,6 +1,8 @@
 package org.tihor.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.tihor.filter.JwtAuthenticationFilter;
@@ -33,6 +36,13 @@ public class SpringSecurityConfig {
      * The Jwt authentication filter.
      */
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    /**
+     * The Auth entry point.
+     */
+    @Autowired
+    @Qualifier("delegatedAuthenticationEntryPoint")
+    private AuthenticationEntryPoint authEntryPoint;
 
     /**
      * Password encoder password encoder.
@@ -96,7 +106,8 @@ public class SpringSecurityConfig {
                                 .authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(authEntryPoint));
 
         return http.build();
     }

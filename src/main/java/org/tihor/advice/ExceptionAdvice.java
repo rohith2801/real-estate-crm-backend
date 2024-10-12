@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,6 +14,7 @@ import org.tihor.exception.InvalidRequestException;
 import org.tihor.exception.ResourceNotFoundException;
 import org.tihor.model.Response;
 
+import javax.naming.AuthenticationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,6 +44,36 @@ public class ExceptionAdvice {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Response.withErrors(errors));
+    }
+
+    /**
+     * Handle authentication exception response entity.
+     *
+     * @param exception the exception
+     * @return the response entity
+     */
+    @ResponseBody
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<Response> handleAuthenticationException(final AuthenticationException exception) {
+        log.error("Authentication Exception.", exception);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Response.withErrors(List.of(exception.getMessage())));
+    }
+
+    /**
+     * Handle insufficient authentication exception response entity.
+     *
+     * @param exception the exception
+     * @return the response entity
+     */
+    @ResponseBody
+    @ExceptionHandler(InsufficientAuthenticationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<Response> handleInsufficientAuthenticationException(final InsufficientAuthenticationException exception) {
+        log.error("Insufficient Authentication Exception.", exception);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Response.withErrors(List.of(exception.getMessage())));
     }
 
     /**

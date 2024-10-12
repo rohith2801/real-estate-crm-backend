@@ -12,11 +12,6 @@ import java.io.Serializable;
 @Setter
 public class ChangePasswordRequest implements Serializable {
     /**
-     * The Id.
-     */
-    private Long id;
-
-    /**
      * The Current password.
      */
     private String currentPassword;

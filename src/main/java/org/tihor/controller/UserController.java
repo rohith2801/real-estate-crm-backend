@@ -88,11 +88,15 @@ public class UserController {
     /**
      * Change password response entity.
      *
+     * @param id      the id
      * @param request the request
      * @return the response entity
      */
-    @PostMapping("/change-password")
-    public ResponseEntity<Response> changePassword(@RequestBody @Valid final ChangePasswordRequest request) {
-        return ResponseEntity.ok(Response.withData(userService.changePassword(request)));
+    @PostMapping("/{id}/change-password")
+    public ResponseEntity<Response> changePassword(
+            @PathVariable("id") final Long id,
+            @RequestBody @Valid final ChangePasswordRequest request
+    ) {
+        return ResponseEntity.ok(Response.withData(userService.changePassword(id, request)));
     }
 }

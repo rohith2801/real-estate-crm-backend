@@ -174,15 +174,16 @@ public class UserService {
     /**
      * Change password string.
      *
+     * @param id      the id
      * @param request the request
      * @return the string
      */
-    public String changePassword(final ChangePasswordRequest request) {
+    public String changePassword(final Long id, final ChangePasswordRequest request) {
         if (!StringUtils.equals(request.getNewPassword(), request.getConfirmNewPassword())) {
             throw new InvalidRequestException("Password and confirm password does not match");
         }
 
-        var entity = userRepository.findByIdAndIsDeleted(request.getId(), false)
+        var entity = userRepository.findByIdAndIsDeleted(id, false)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         boolean isCurrentPasswordMatched = passwordEncoder.matches(request.getCurrentPassword(), entity.getPassword());
