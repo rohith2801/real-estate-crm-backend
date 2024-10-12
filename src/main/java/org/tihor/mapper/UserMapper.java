@@ -8,6 +8,7 @@ import org.tihor.entity.UserEntity;
 import org.tihor.enums.UserType;
 import org.tihor.model.request.UserRequest;
 import org.tihor.model.response.CustomerResponse;
+import org.tihor.model.response.LoginResponse;
 
 /**
  * The type User mapper.
@@ -72,6 +73,30 @@ public class UserMapper {
                 .location(entity.getLocation())
                 .cellPhone(entity.getCellPhone())
                 .emailId(entity.getEmailId())
+                .username(entity.getUsername())
                 .build();
+    }
+
+    /**
+     * Map entity to login response login response.
+     *
+     * @param entity the entity
+     * @param token  the token
+     * @return the login response
+     */
+    public LoginResponse mapEntityToLoginResponse(final UserEntity entity, final String token) {
+        var response = new LoginResponse(token);
+
+        response.setId(entity.getId());
+        response.setFirstName(entity.getFirstName());
+        response.setLastName(entity.getLastName());
+        response.setStreet(entity.getStreet());
+        response.setPinCode(entity.getPinCode());
+        response.setLocation(entity.getLocation());
+        response.setCellPhone(entity.getCellPhone());
+        response.setEmailId(entity.getEmailId());
+        response.setUsername(entity.getUsername());
+
+        return response;
     }
 }

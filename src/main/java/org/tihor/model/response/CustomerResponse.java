@@ -1,7 +1,9 @@
 package org.tihor.model.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
@@ -12,6 +14,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CustomerResponse implements Serializable {
     /**
      * The Id.
@@ -52,4 +56,9 @@ public class CustomerResponse implements Serializable {
      * The Email id.
      */
     private String emailId;
+
+    /**
+     * The Username.
+     */
+    private String username;
 }

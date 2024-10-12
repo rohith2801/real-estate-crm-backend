@@ -5,6 +5,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.tihor.exception.ResourceNotFoundException;
+import org.tihor.mapper.UserMapper;
 import org.tihor.model.request.LoginRequest;
 import org.tihor.model.response.LoginResponse;
 import org.tihor.repository.UserRepository;
@@ -31,6 +32,11 @@ public class AuthService {
     private final UserRepository userRepository;
 
     /**
+     * The User mapper.
+     */
+    private final UserMapper userMapper;
+
+    /**
      * Login login response.
      *
      * @param request the request
@@ -44,6 +50,6 @@ public class AuthService {
                 .orElseThrow(() -> new ResourceNotFoundException("Invalid email or password"));
         var jwt = jwtService.generateToken(user);
 
-        return LoginResponse.builder().jwt(jwt).build();
+        return userMapper.mapEntityToLoginResponse(user, jwt);
     }
 }

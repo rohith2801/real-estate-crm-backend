@@ -1,24 +1,25 @@
 package org.tihor.model.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.io.Serializable;
 
 /**
  * The type Login response.
  */
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class LoginResponse implements Serializable {
+public class LoginResponse extends CustomerResponse {
     /**
-     * The Jwt.
+     * The Token.
      */
-    private String jwt;
+    private String token;
+
+    /**
+     * Instantiates a new Login response.
+     *
+     * @param token the token
+     */
+    public LoginResponse(final String token) {
+        this.token = token;
+    }
 }
